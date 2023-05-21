@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="IngresoClientesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="Id_Cliente" />
+          </Key>
+          <Property Name="Id_Cliente" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Nombre_Cliente" Type="varchar" MaxLength="100" />
+          <Property Name="Apellido_Cliente" Type="varchar" MaxLength="100" />
+          <Property Name="Telefono_Cliente" Type="varchar" MaxLength="100" />
+          <Property Name="Direccion_Cliente" Type="varchar(max)" />
+          <Property Name="Correo_Cliente" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <Function Name="sp_actualizar_cliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="strCedula" Type="varchar" Mode="In" />
+          <Parameter Name="strNombre" Type="varchar" Mode="In" />
+          <Parameter Name="strApellido" Type="varchar" Mode="In" />
+          <Parameter Name="strTelefono" Type="varchar" Mode="In" />
+          <Parameter Name="strDireccion" Type="varchar" Mode="In" />
+          <Parameter Name="strCorreo" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_Ingreso_Clientes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="strCedula_Cliente" Type="varchar" Mode="In" />
+          <Parameter Name="strNombre_Cliente" Type="varchar" Mode="In" />
+          <Parameter Name="strApellido_Cliente" Type="varchar" Mode="In" />
+          <Parameter Name="strTelefono_Cliente" Type="varchar" Mode="In" />
+          <Parameter Name="strDireccion_Cliente" Type="varchar(max)" Mode="In" />
+          <Parameter Name="strCorreo_Cliente" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_listar_clientes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Filtro" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="IngresoClientesModelStoreContainer">
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="IngresoClientesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="Id_Cliente" />
+          </Key>
+          <Property Name="Id_Cliente" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre_Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido_Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono_Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion_Cliente" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Correo_Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="IngresoClientesEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clientes" EntityType="Self.Cliente" />
+          <FunctionImport Name="sp_Ingreso_Clientes" ReturnType="Collection(IngresoClientesModel.sp_Ingreso_Clientes_Result)">
+            <Parameter Name="strCedula_Cliente" Mode="In" Type="String" />
+            <Parameter Name="strNombre_Cliente" Mode="In" Type="String" />
+            <Parameter Name="strApellido_Cliente" Mode="In" Type="String" />
+            <Parameter Name="strTelefono_Cliente" Mode="In" Type="String" />
+            <Parameter Name="strDireccion_Cliente" Mode="In" Type="String" />
+            <Parameter Name="strCorreo_Cliente" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_listar_clientes" ReturnType="Collection(IngresoClientesModel.sp_listar_clientes_Result)">
+          <Parameter Name="Filtro" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_actualizar_cliente" ReturnType="Collection(IngresoClientesModel.sp_actualizar_cliente_Result)">
+            <Parameter Name="strCedula" Mode="In" Type="String" />
+            <Parameter Name="strNombre" Mode="In" Type="String" />
+            <Parameter Name="strApellido" Mode="In" Type="String" />
+            <Parameter Name="strTelefono" Mode="In" Type="String" />
+            <Parameter Name="strDireccion" Mode="In" Type="String" />
+            <Parameter Name="strCorreo" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_listar_clientes_Result">
+          <Property Type="String" Name="Id_Cliente" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Nombre_Cliente" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Apellido_Cliente" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Telefono_Cliente" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Direccion_Cliente" Nullable="true" />
+          <Property Type="String" Name="Correo_Cliente" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="sp_Ingreso_Clientes_Result">
+          <Property Type="Boolean" Name="RESPUESTA" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_actualizar_cliente_Result">
+          <Property Type="Boolean" Name="Respuesta" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="IngresoClientesModelStoreContainer" CdmEntityContainer="IngresoClientesEntities">
+          <EntitySetMapping Name="Clientes">
+            <EntityTypeMapping TypeName="IngresoClientesModel.Cliente">
+              <MappingFragment StoreEntitySet="Cliente">
+                <ScalarProperty Name="Id_Cliente" ColumnName="Id_Cliente" />
+                <ScalarProperty Name="Nombre_Cliente" ColumnName="Nombre_Cliente" />
+                <ScalarProperty Name="Apellido_Cliente" ColumnName="Apellido_Cliente" />
+                <ScalarProperty Name="Telefono_Cliente" ColumnName="Telefono_Cliente" />
+                <ScalarProperty Name="Direccion_Cliente" ColumnName="Direccion_Cliente" />
+                <ScalarProperty Name="Correo_Cliente" ColumnName="Correo_Cliente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Ingreso_Clientes" FunctionName="IngresoClientesModel.Store.sp_Ingreso_Clientes" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="IngresoClientesModel.sp_Ingreso_Clientes_Result">
+                <ScalarProperty Name="RESPUESTA" ColumnName="RESPUESTA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_listar_clientes" FunctionName="IngresoClientesModel.Store.sp_listar_clientes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="IngresoClientesModel.sp_listar_clientes_Result">
+                <ScalarProperty Name="Id_Cliente" ColumnName="Id_Cliente" />
+                <ScalarProperty Name="Nombre_Cliente" ColumnName="Nombre_Cliente" />
+                <ScalarProperty Name="Apellido_Cliente" ColumnName="Apellido_Cliente" />
+                <ScalarProperty Name="Telefono_Cliente" ColumnName="Telefono_Cliente" />
+                <ScalarProperty Name="Direccion_Cliente" ColumnName="Direccion_Cliente" />
+                <ScalarProperty Name="Correo_Cliente" ColumnName="Correo_Cliente" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_actualizar_cliente" FunctionName="IngresoClientesModel.Store.sp_actualizar_cliente" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="IngresoClientesModel.sp_actualizar_cliente_Result">
+                <ScalarProperty Name="Respuesta" ColumnName="Respuesta" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

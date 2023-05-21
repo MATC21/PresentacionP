@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ProductosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="Id_Categoria" />
+          </Key>
+          <Property Name="Id_Categoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion_Categoria" Type="nvarchar" MaxLength="50" />
+          <Property Name="fecha_registro" Type="date" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="Id_Producto" />
+          </Key>
+          <Property Name="Id_Producto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre_Producto" Type="varchar" MaxLength="100" />
+          <Property Name="Descripcion__Producto" Type="varchar(max)" />
+          <Property Name="Cantidad_Producto" Type="int" />
+          <Property Name="PrecioxUnidad_Producto" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="Id_Categoria" Type="int" />
+        </EntityType>
+        <Association Name="FK_Categoria_Categoria">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
+          <End Role="Categoria1" Type="Self.Categoria" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="Id_Categoria" />
+            </Principal>
+            <Dependent Role="Categoria1">
+              <PropertyRef Name="Id_Categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Productos_Categoria">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="0..1" />
+          <End Role="Productos" Type="Self.Productos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="Id_Categoria" />
+            </Principal>
+            <Dependent Role="Productos">
+              <PropertyRef Name="Id_Categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_Actualizar_Producto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IntId_Producto" Type="int" Mode="In" />
+          <Parameter Name="strNombre_Producto" Type="varchar" Mode="In" />
+          <Parameter Name="strDescripcion_Producto" Type="varchar(max)" Mode="In" />
+          <Parameter Name="IntCantidad_Producto" Type="int" Mode="In" />
+          <Parameter Name="DecPrecioxUnidad_Producto" Type="decimal" Mode="In" />
+          <Parameter Name="IntId_Categoria" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_Ingreso_Producto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="strNombre_Producto" Type="varchar" Mode="In" />
+          <Parameter Name="strDescripcion_Producto" Type="varchar(max)" Mode="In" />
+          <Parameter Name="strCantidad_Producto" Type="int" Mode="In" />
+          <Parameter Name="strPrecioxUnidad_Producto" Type="decimal" Mode="In" />
+          <Parameter Name="strId_Categoria" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_listar_productos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Filtro" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="ProductosModelStoreContainer">
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Categoria_Categoria" Association="Self.FK_Categoria_Categoria">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="Categoria1" EntitySet="Categoria" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Productos_Categoria" Association="Self.FK_Productos_Categoria">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="Productos" EntitySet="Productos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProductosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="Id_Categoria" />
+          </Key>
+          <Property Name="Id_Categoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion_Categoria" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_registro" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Categoria1" Relationship="Self.FK_Categoria_Categoria" FromRole="Categoria" ToRole="Categoria1" />
+          <NavigationProperty Name="Categoria2" Relationship="Self.FK_Categoria_Categoria" FromRole="Categoria1" ToRole="Categoria" />
+          <NavigationProperty Name="Productos" Relationship="Self.FK_Productos_Categoria" FromRole="Categoria" ToRole="Productos" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="Id_Producto" />
+          </Key>
+          <Property Name="Id_Producto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre_Producto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion__Producto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Cantidad_Producto" Type="Int32" />
+          <Property Name="PrecioxUnidad_Producto" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="Id_Categoria" Type="Int32" />
+          <NavigationProperty Name="Categoria" Relationship="Self.FK_Productos_Categoria" FromRole="Productos" ToRole="Categoria" />
+        </EntityType>
+        <Association Name="FK_Categoria_Categoria">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
+          <End Role="Categoria1" Type="Self.Categoria" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="Id_Categoria" />
+            </Principal>
+            <Dependent Role="Categoria1">
+              <PropertyRef Name="Id_Categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Productos_Categoria">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="0..1" />
+          <End Role="Productos" Type="Self.Producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="Id_Categoria" />
+            </Principal>
+            <Dependent Role="Productos">
+              <PropertyRef Name="Id_Categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProductosEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categorias" EntityType="Self.Categoria" />
+          <EntitySet Name="Productos" EntityType="Self.Producto" />
+          <AssociationSet Name="FK_Categoria_Categoria" Association="Self.FK_Categoria_Categoria">
+            <End Role="Categoria" EntitySet="Categorias" />
+            <End Role="Categoria1" EntitySet="Categorias" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Productos_Categoria" Association="Self.FK_Productos_Categoria">
+            <End Role="Categoria" EntitySet="Categorias" />
+            <End Role="Productos" EntitySet="Productos" />
+          </AssociationSet>
+          <FunctionImport Name="sp_Ingreso_Producto" ReturnType="Collection(ProductosModel.sp_Ingreso_Producto_Result)">
+            <Parameter Name="strNombre_Producto" Mode="In" Type="String" />
+            <Parameter Name="strDescripcion_Producto" Mode="In" Type="String" />
+            <Parameter Name="strCantidad_Producto" Mode="In" Type="Int32" />
+            <Parameter Name="strPrecioxUnidad_Producto" Mode="In" Type="Decimal" />
+            <Parameter Name="strId_Categoria" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_listar_productos" ReturnType="Collection(ProductosModel.sp_listar_productos_Result)">
+          <Parameter Name="Filtro" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Actualizar_Producto" ReturnType="Collection(ProductosModel.sp_Actualizar_Producto_Result)">
+            <Parameter Name="IntId_Producto" Mode="In" Type="Int32" />
+            <Parameter Name="strNombre_Producto" Mode="In" Type="String" />
+            <Parameter Name="strDescripcion_Producto" Mode="In" Type="String" />
+            <Parameter Name="IntCantidad_Producto" Mode="In" Type="Int32" />
+            <Parameter Name="DecPrecioxUnidad_Producto" Mode="In" Type="Decimal" />
+            <Parameter Name="IntId_Categoria" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_listar_productos_Result">
+          <Property Type="Int32" Name="Id_Producto" Nullable="false" />
+          <Property Type="String" Name="Nombre_Producto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Descripcion__Producto" Nullable="true" />
+          <Property Type="Int32" Name="Cantidad_Producto" Nullable="true" />
+          <Property Type="Decimal" Name="PrecioxUnidad_Producto" Nullable="true" Precision="18" Scale="5" />
+          <Property Type="Int32" Name="Id_Categoria" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_Ingreso_Producto_Result">
+          <Property Type="Boolean" Name="RESPUESTA" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_Actualizar_Producto_Result">
+          <Property Type="Boolean" Name="Respuesta" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ProductosModelStoreContainer" CdmEntityContainer="ProductosEntities">
+          <EntitySetMapping Name="Categorias">
+            <EntityTypeMapping TypeName="ProductosModel.Categoria">
+              <MappingFragment StoreEntitySet="Categoria">
+                <ScalarProperty Name="Id_Categoria" ColumnName="Id_Categoria" />
+                <ScalarProperty Name="Descripcion_Categoria" ColumnName="Descripcion_Categoria" />
+                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Productos">
+            <EntityTypeMapping TypeName="ProductosModel.Producto">
+              <MappingFragment StoreEntitySet="Productos">
+                <ScalarProperty Name="Id_Producto" ColumnName="Id_Producto" />
+                <ScalarProperty Name="Nombre_Producto" ColumnName="Nombre_Producto" />
+                <ScalarProperty Name="Descripcion__Producto" ColumnName="Descripcion__Producto" />
+                <ScalarProperty Name="Cantidad_Producto" ColumnName="Cantidad_Producto" />
+                <ScalarProperty Name="PrecioxUnidad_Producto" ColumnName="PrecioxUnidad_Producto" />
+                <ScalarProperty Name="Id_Categoria" ColumnName="Id_Categoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Ingreso_Producto" FunctionName="ProductosModel.Store.sp_Ingreso_Producto" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProductosModel.sp_Ingreso_Producto_Result">
+                <ScalarProperty Name="RESPUESTA" ColumnName="RESPUESTA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_listar_productos" FunctionName="ProductosModel.Store.sp_listar_productos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProductosModel.sp_listar_productos_Result">
+                <ScalarProperty Name="Id_Producto" ColumnName="Id_Producto" />
+                <ScalarProperty Name="Nombre_Producto" ColumnName="Nombre_Producto" />
+                <ScalarProperty Name="Descripcion__Producto" ColumnName="Descripcion__Producto" />
+                <ScalarProperty Name="Cantidad_Producto" ColumnName="Cantidad_Producto" />
+                <ScalarProperty Name="PrecioxUnidad_Producto" ColumnName="PrecioxUnidad_Producto" />
+                <ScalarProperty Name="Id_Categoria" ColumnName="Id_Categoria" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Actualizar_Producto" FunctionName="ProductosModel.Store.sp_Actualizar_Producto" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProductosModel.sp_Actualizar_Producto_Result">
+                <ScalarProperty Name="Respuesta" ColumnName="Respuesta" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
